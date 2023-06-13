@@ -1,0 +1,8 @@
+﻿<Application x:Class="PublishingHouse.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PublishingHouse">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

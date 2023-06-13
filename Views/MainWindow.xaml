@@ -1,0 +1,57 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PublishingHouse"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:views="clr-namespace:PublishingHouse.Views"
+        xmlns:vmls="clr-namespace:PublishingHouse.ViewModels"
+        x:Class="PublishingHouse.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" MinHeight="800" MinWidth="1200"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Purple" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type vmls:LoginViewModel}">
+                <views:LoginView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vmls:RegistrationViewModel}">
+                <views:RegistrationView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vmls:MainPageViewModel}">
+                <views:MainPageView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vmls:PrintedEditionViewModel}">
+                <views:PrintedEditionInfoView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vmls:PrintedEditionCartInfoViewModel}">
+                <views:PrintedEditionCartInfoView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vmls:OrderViewModel}">
+                <views:OrderView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vmls:ReaderViewModel}">
+                <views:ReaderView />
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ContentControl Content="{Binding CurrentViewModel}" />
+    </Grid>
+</Window>
