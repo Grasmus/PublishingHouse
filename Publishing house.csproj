@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <ApplicationIcon>icon256.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,10 @@
     <None Remove="Resources\noItemsFound.png" />
     <None Remove="Resources\Samuel_Delany_Babel-17.jpg" />
     <None Remove="Resources\Stephen_King_The_Mist.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="icon256.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +38,7 @@
   <ItemGroup>
     <Resource Include="Resources\book_cover.jpg" />
     <Resource Include="Resources\Isaac_Asimov_I_Robot.jpg" />
-    <Resource Include="Resources\noItemsFound.png" />
+    <DesignDataWithDesignTimeCreatableTypes Include="Resources\noItemsFound.png" />
     <Resource Include="Resources\Samuel_Delany_Babel-17.jpg" />
     <Resource Include="Resources\Stephen_King_The_Mist.jpg" />
   </ItemGroup>

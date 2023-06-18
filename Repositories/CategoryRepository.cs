@@ -1,50 +1,49 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PublishingHouse.Models.PrintedEditionEntity;
+using PublishingHouse.Models.CategoryEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PublishingHouse.Repositories
 {
-    public class PrintedEditionRepository
+    public class CategoryRepository
     {
-        private readonly DbSet<PrintedEdition> _dbSet;
+        private readonly DbSet<Category> _dbSet;
 
-        public PrintedEditionRepository(DbSet<PrintedEdition> dbSet)
+        public CategoryRepository(DbSet<Category> dbSet)
         {
             _dbSet = dbSet;
         }
 
-        public void Add(PrintedEdition entity)
+        public void Add(Category entity)
         {
             _dbSet.Add(entity);
         }
 
-        public async Task AddAsync(PrintedEdition entity)
+        public async Task AddAsync(Category entity)
         {
             await _dbSet.AddAsync(entity);
         }
 
-        public bool Any(Expression<Func<PrintedEdition, bool>> filter)
+        public bool Any(Expression<Func<Category, bool>> filter)
         {
             return _dbSet.Any(filter);
         }
 
-        public IEnumerable<PrintedEdition> GetAll()
+        public IEnumerable<Category> GetAll()
         {
-            _dbSet.Load();
-
             return _dbSet.ToList();
         }
 
-        public async Task<IEnumerable<PrintedEdition>> GetAsync(
-            Expression<Func<PrintedEdition, bool>>? filter = null, 
-            Func<IQueryable<PrintedEdition>, IOrderedQueryable<PrintedEdition>>? orderBy = null, 
+        public async Task<IEnumerable<Category>> GetAsync(
+            Expression<Func<Category, bool>>? filter = null,
+            Func<IQueryable<Category>, IOrderedQueryable<Category>>? orderBy = null,
             string includeProperties = "")
         {
-            IQueryable<PrintedEdition> query = _dbSet;
+            IQueryable<Category> query = _dbSet;
 
             if (filter != null)
             {
@@ -67,19 +66,19 @@ namespace PublishingHouse.Repositories
             }
         }
 
-        public PrintedEdition GetById(int id)
+        public Category GetById(int id)
         {
-            return _dbSet.Where(p => p.Id == id).Single();
+            return _dbSet.Where(o => o.Id == id).Single();
         }
 
-        public IEnumerable<PrintedEdition> GetAvailable()
-        {
-            return _dbSet.Where(p => (bool)p.IsAvailable).ToList();
-        }
-
-        public void Remove(PrintedEdition entity)
+        public void Remove(Category entity)
         {
             _dbSet.Remove(entity);
+        }
+
+        public void Update(Category entity)
+        {
+            _dbSet.Update(entity);
         }
     }
 }

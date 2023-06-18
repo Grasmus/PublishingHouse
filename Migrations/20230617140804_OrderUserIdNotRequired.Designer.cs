@@ -12,8 +12,8 @@ using PublishingHouse.DataAccessLayer;
 namespace PublishingHouse.Migrations
 {
     [DbContext(typeof(PublishingHouseContext))]
-    [Migration("20230611123914_AddSeed")]
-    partial class AddSeed
+    [Migration("20230617140804_OrderUserIdNotRequired")]
+    partial class OrderUserIdNotRequired
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,13 +56,6 @@ namespace PublishingHouse.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Books"
-                        });
                 });
 
             modelBuilder.Entity("PublishingHouse.Models.OrderEntity.Order", b =>
@@ -84,7 +77,7 @@ namespace PublishingHouse.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("money");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -151,53 +144,6 @@ namespace PublishingHouse.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("PrintedEdition");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Isaac Asimov",
-                            CategoryId = 1,
-                            Cover = new byte[] { 1 },
-                            Description = "Isaac Asimov's I, Robot launches readers on an adventure into a not-so-distant future where man and machine , struggle to redefinelife, love, and consciousness—and where the stakes are nothing less than survival. Filled with unforgettable characters, mind-bending speculation, and nonstop action, I, Robot is a powerful reading experience from one of the master storytellers of our time.\nI, ROBOT\nThey mustn't harm a human being, they must obey human orders, and they must protect their own existence...but only so long as that doesn't violate rules one and two. With these Three Laws of Robotics, humanity embarked on perhaps its greatest adventure: the invention of the first positronic man. It was a bold new era of evolution that would open up enormous possibilities—and unforeseen risks. For the scientists who invented the earliest robots weren't content that their creations should ' remain programmed helpers, companions, and semisentient worker-machines. And soon the robots themselves; aware of their own intelligence, power, and humanity, aren't either.\nAs humans and robots struggle to survive together—and sometimes against each other—on earth and in space, the future of both hangs in the balance. Human men and women confront robots gone mad, telepathic robots, robot politicians, and vast robotic intelligences that may already secretly control the world. And both are asking the same questions: What is human? And is humanity obsolete?\nIn l, Robot Isaac Asimov changes forever our perception of robots, and human beings and updates the timeless myth of man's dream to play god. with all its rewards—and terrors.\n",
-                            Genre = "Science Fiction & Fantasy",
-                            IsAvailable = true,
-                            Language = "English",
-                            Price = 10m,
-                            ReleaseDate = new DateTime(2023, 6, 11, 15, 39, 13, 658, DateTimeKind.Local).AddTicks(7071),
-                            Title = "I, Robot",
-                            Updated = new DateTime(2023, 6, 11, 15, 39, 13, 658, DateTimeKind.Local).AddTicks(7112)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Stephen King",
-                            CategoryId = 1,
-                            Cover = new byte[] { 1 },
-                            Description = "It's a hot, lazy day, perfect for a cookout, until you see those strange dark clouds. Suddenly a violent storm sweeps across the lake and ends as abruptly and unexpectedly as it had begun. Then comes the mist...creeping slowly, inexorably into town, where it settles and waits, trapping you in the supermarket with dozens of others, cut off from your families and the world. The mist is alive, seething with unearthly sounds and movements. What unleashed this terror? Was it the Arrowhead Project---the top secret government operation that everyone has noticed but no one quite understands? And what happens when the provisions have run out and you're forced to make your escape, edging blindly through the dim light?",
-                            Genre = "Horror",
-                            IsAvailable = true,
-                            Language = "English",
-                            Price = 10m,
-                            ReleaseDate = new DateTime(2023, 6, 11, 15, 39, 13, 658, DateTimeKind.Local).AddTicks(7120),
-                            Title = "The Mist",
-                            Updated = new DateTime(2023, 6, 11, 15, 39, 13, 658, DateTimeKind.Local).AddTicks(7122)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Semuel Delany",
-                            CategoryId = 1,
-                            Cover = new byte[] { 1 },
-                            Description = "Babel-17 is all about the power of language. Humanity, which has spread throughout the universe, is involved in a war with the Invaders, who have been covertly assassinating officials and sabotaging spaceships. The only clues humanity has to go on are strange alien messages that have been intercepted in space. Poet and linguist Rydra Wong is determined to understand the language and stop the alien threat.",
-                            Genre = "Science Fiction & Fantasy",
-                            IsAvailable = true,
-                            Language = "English",
-                            Price = 9m,
-                            ReleaseDate = new DateTime(2023, 6, 11, 15, 39, 13, 658, DateTimeKind.Local).AddTicks(7125),
-                            Title = "Babel-17",
-                            Updated = new DateTime(2023, 6, 11, 15, 39, 13, 658, DateTimeKind.Local).AddTicks(7127)
-                        });
                 });
 
             modelBuilder.Entity("PublishingHouse.Models.UserEntity.User", b =>
@@ -244,19 +190,6 @@ namespace PublishingHouse.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedDate = new DateTime(2023, 6, 11, 15, 39, 13, 822, DateTimeKind.Local).AddTicks(1017),
-                            FirstName = "Admin",
-                            IsBlacklisted = false,
-                            LastName = "Admin",
-                            Login = "admin",
-                            PasswordHash = "$2a$11$sCaP0BlY/WkRH/bkIprxa.L9I7wl52fUy81UwB//AjDQFoYA/0H8O",
-                            Role = "Administrator"
-                        });
                 });
 
             modelBuilder.Entity("OrderPrintedEdition", b =>
@@ -278,9 +211,7 @@ namespace PublishingHouse.Migrations
                 {
                     b.HasOne("PublishingHouse.Models.UserEntity.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

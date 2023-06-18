@@ -3,7 +3,6 @@ using PublishingHouse.ViewModels;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace PublishingHouse.Commands
 {
@@ -11,15 +10,12 @@ namespace PublishingHouse.Commands
     {
         private readonly MainPageViewModel _mainPageViewModel;
         private readonly IUserService _userService;
-        private readonly ICommand _logoutCommand;
 
         public DeleteUserCommand(MainPageViewModel mainPageViewModel,
-            IUserService userService,
-            ICommand logoutCommand)
+            IUserService userService)
         {
             _mainPageViewModel = mainPageViewModel;
             _userService = userService;
-            _logoutCommand = logoutCommand;
         }
 
         public override async Task ExecuteAsync(object? parameter) 
@@ -27,7 +23,7 @@ namespace PublishingHouse.Commands
             try
             {
                 await _userService.DeleteCurrentUserAsync();
-                _logoutCommand.Execute(parameter);
+                _mainPageViewModel.LogoutCommand.Execute(parameter);
             }
             catch(Exception ex)
             {

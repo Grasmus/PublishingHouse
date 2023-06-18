@@ -87,9 +87,9 @@ namespace PublishingHouse.Repositories
             return _dbSet.ToList();
         }
 
-        public User GetByLogin(string login)
+        public User? GetByLogin(string login)
         {
-            return _dbSet.Where(u => u.Login == login).Single();
+            return _dbSet.Where(u => u.Login == login).SingleOrDefault();
         }
 
         public User GetByLoginWithOrders(string login)

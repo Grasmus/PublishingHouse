@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -71,6 +72,23 @@ namespace PublishingHouse.ViewModels
             }
         }
 
+        private bool _hasOrders;
+
+        public bool HasOrders
+        {
+            get
+            {
+                return _hasOrders;
+            }
+
+            set
+            {
+                _hasOrders = value;
+
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand ViewOrdersCommand { get; }
         public ICommand NavigateBackCommand { get; }
         public ICommand LoadOrdersCommand { get; }
@@ -119,6 +137,8 @@ namespace PublishingHouse.ViewModels
         public void UpdateOrders(List<Order> orders)
         {
             Orders.Clear();
+
+            HasOrders = orders.Any();
 
             foreach (var order in orders) 
             {

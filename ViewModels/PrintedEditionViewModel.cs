@@ -31,7 +31,7 @@ namespace PublishingHouse.ViewModels
         {
             get
             {
-                return _mainPageViewModel.IsUserBlacklisted ? Visibility.Collapsed : Visibility.Visible;
+                return _mainPageViewModel.IsUserBlacklisted || _mainPageViewModel.IsAdmin ? Visibility.Collapsed : Visibility.Visible;
             }
         }
 

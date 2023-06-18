@@ -1,6 +1,5 @@
 ﻿using PublishingHouse.Models.PrintedEditionEntity;
 using PublishingHouse.ViewModels;
-using System;
 using System.ComponentModel;
 
 namespace PublishingHouse.Commands

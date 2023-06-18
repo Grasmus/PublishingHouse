@@ -1,14 +1,12 @@
 ﻿using PublishingHouse.Constats;
 using PublishingHouse.DTOs;
 using PublishingHouse.Interfaces;
-using PublishingHouse.Models.OrderEntity;
 using PublishingHouse.Models.UserEntity;
 using PublishingHouse.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
 
 namespace PublishingHouse.Services
 {
@@ -102,6 +100,7 @@ namespace PublishingHouse.Services
         public async Task DeleteCurrentUserAsync()
         {
             UserRepository userRepository = _unitOfWork.UserRepository;
+            OrderRepository orderRepository = _unitOfWork.OrderRepository;
 
             User user = GetCurrentUserWithOrders();
 
@@ -110,12 +109,16 @@ namespace PublishingHouse.Services
                 throw new Exception("User cannot be deleted. There are unpaid orders");
             }
 
-            if (user.Orders != null)
+            if (user.Orders != null && user.Orders.Count != 0)
             {
                 foreach (var order in user.Orders)
                 {
-                    order.UserId = 0;
+                    order.UserId = null;
+
+                    orderRepository.Update(order);
                 }
+
+                user.Orders.Clear();
             }
 
             userRepository.Remove(user);
@@ -221,7 +224,7 @@ namespace PublishingHouse.Services
                 return false;
             }
 
-            if(user.Orders == null || user.Orders.Count == 0)
+            if(user.Orders == null)
             {
                 return true;
             }

@@ -5,7 +5,7 @@ namespace PublishingHouse.Interfaces
 {
     public interface IAuthenticationService
     {
-        Task LogInAsync(UserLoginDTO userDTO);
+        void LogIn(UserLoginDTO userDTO);
         Task RegistrationAsync(UserRegisterDTO user);
     }
 }

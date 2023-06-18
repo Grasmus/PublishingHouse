@@ -1,17 +1,13 @@
 ﻿using PublishingHouse.DTOs;
 using PublishingHouse.Interfaces;
-using PublishingHouse.Models.UserEntity;
 using PublishingHouse.ViewModels;
 using System;
 using System.ComponentModel;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PublishingHouse.Commands
 {
-    public class LogInCommand : AsyncCommandBase
+    public class LogInCommand : CommandBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly INavigationService _navigationService;
@@ -44,7 +40,7 @@ namespace PublishingHouse.Commands
                 base.CanExecute(parameter);
         }
 
-        public override async Task ExecuteAsync(object? parameter)
+        public override void Execute(object? parameter)
         {
             UserLoginDTO userDTO = new UserLoginDTO()
             {
@@ -54,7 +50,7 @@ namespace PublishingHouse.Commands
 
             try
             {
-                await _authenticationService.LogInAsync(userDTO);
+                _authenticationService.LogIn(userDTO);
                 _navigationService.Navigate();
             }
             catch (Exception ex)

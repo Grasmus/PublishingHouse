@@ -4,7 +4,6 @@ using PublishingHouse.Interfaces;
 using PublishingHouse.Models.UserEntity;
 using PublishingHouse.Repositories;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -19,11 +18,11 @@ namespace PublishingHouse.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task LogInAsync(UserLoginDTO userDTO)
+        public void LogIn(UserLoginDTO userDTO)
         {
             UserRepository userRepository = _unitOfWork.UserRepository;
 
-            User? user = (await userRepository.GetAsync(u => u.Login == userDTO.Login)).SingleOrDefault();
+            User? user = userRepository.GetByLogin(userDTO.Login);
 
             if (user is null)
             {

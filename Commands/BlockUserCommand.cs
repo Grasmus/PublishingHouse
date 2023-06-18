@@ -11,7 +11,6 @@ namespace PublishingHouse.Commands
     {
         private readonly ReaderViewModel _readerViewModel;
         private readonly IUserService _userService;
-        private readonly int _userId;
 
         public BlockUserCommand(ReaderViewModel readerViewModel, IUserService userService)
         {

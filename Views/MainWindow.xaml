@@ -9,7 +9,7 @@
         xmlns:vmls="clr-namespace:PublishingHouse.ViewModels"
         x:Class="PublishingHouse.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="800" MinWidth="1200"
+        Title="Publishing House" MinHeight="900" MinWidth="1200"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     <Window.Resources>

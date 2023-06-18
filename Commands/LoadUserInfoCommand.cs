@@ -1,10 +1,8 @@
 ﻿using PublishingHouse.Constats;
-using PublishingHouse.DTOs;
 using PublishingHouse.Interfaces;
 using PublishingHouse.Models.UserEntity;
 using PublishingHouse.ViewModels;
 using System;
-using System.Threading;
 using System.Windows;
 
 namespace PublishingHouse.Commands

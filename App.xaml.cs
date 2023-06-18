@@ -32,6 +32,7 @@ namespace PublishingHouse
             services.AddSingleton<PrintedEditionService>();
             services.AddSingleton<UserService>();
             services.AddSingleton<OrderService>();
+            services.AddSingleton<CategoryService>();
 
             services.AddSingleton<MainViewModel>();
 
@@ -107,7 +108,8 @@ namespace PublishingHouse
                 CreateBookInfoNavigationService(serviceProvider),
                 serviceProvider.GetRequiredService<PrintedEditionService>(),
                 serviceProvider.GetRequiredService<OrderService>(),
-                serviceProvider.GetRequiredService<UserService>());
+                serviceProvider.GetRequiredService<UserService>(),
+                serviceProvider.GetRequiredService<CategoryService>());
         }
     }
 }

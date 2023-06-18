@@ -31,7 +31,7 @@ namespace PublishingHouse.Commands
             }
         }
 
-        public override async Task ExecuteAsync(object parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             UserDTO userDTO = new UserDTO()
             {

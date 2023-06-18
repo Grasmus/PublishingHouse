@@ -3,6 +3,7 @@ using PublishingHouse.Models.UserEntity;
 using Microsoft.EntityFrameworkCore;
 using PublishingHouse.Models.CategoryEntity;
 using PublishingHouse.Models.PrintedEditionEntity;
+using PublishingHouse.Constats;
 
 namespace PublishingHouse.DataAccessLayer
 {
@@ -15,8 +16,7 @@ namespace PublishingHouse.DataAccessLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //to do: carry out connection string as a constant
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=PHDb;");
+            optionsBuilder.UseSqlServer(PathConstants.DbConnectionPath);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

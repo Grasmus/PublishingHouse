@@ -22,7 +22,7 @@
 
     <Grid>
         <TabControl Style="{DynamicResource MaterialDesignFilledTabControl}">
-            <TabItem Header="Purchase book">
+            <TabItem Header="View books">
                 <Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl ItemsSource="{Binding PrintedEditions}">
@@ -34,7 +34,7 @@
 
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <materialDesign:Card Width="300" Margin="15" Padding="10">
+                                    <materialDesign:Card Width="300" Margin="15" Padding="10" >
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -42,16 +42,18 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <Image Grid.Row="0" Source="{Binding Cover}"/>
-                                            
+
+                                            <Image Grid.Row="0" Height="450" Source="{Binding Cover}"/>
+
                                             <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" Grid.Row="1" Text="{Binding Title}" />
                                             
                                             <TextBlock Style="{DynamicResource MaterialDesignBody2TextBlock}" Grid.Row="2" Text="{Binding Author}" />
                                             
-                                            <Button Margin="0 10 0 0" Grid.Row="3" Command="{Binding ViewBookCommand}" Content="View book"/>
+                                            <Button Margin="0 10" Grid.Row="3" Command="{Binding ViewBookCommand}" Content="View book"/>
 
-                                            <Button Margin="0 10 0 0" Grid.Row="4" Visibility="{Binding AddBookButtonVisibility}"
+                                            <Button Grid.Row="4" Visibility="{Binding AddBookButtonVisibility}"
                                                         Content="{Binding Price}" 
                                                         ContentStringFormat="Buy this book now for {0:C}"
                                                         Command="{Binding AddBookToOrderCommand}"/>
@@ -61,6 +63,76 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Add book" Visibility="{Binding IsAdmin, Converter={StaticResource booleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Image Grid.Row="0" Source="{Binding Cover}" Height="600" Width="300" Margin="0 20" />
+                        <Button Grid.Row="1" Content="Load image" Command="{Binding LoadImageCommand}"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Margin="20">
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Title" Grid.Row="0" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Text="{Binding Title, Mode=OneWayToSource}" Grid.Row="1" Margin="10" FontSize="16" />
+
+                        <TextBlock Text="Author" Grid.Row="2" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Text="{Binding Author, Mode=OneWayToSource}" Grid.Row="3" Margin="10" FontSize="16" />
+
+                        <TextBlock Text="Genre" Grid.Row="4" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Text="{Binding Genre, Mode=OneWayToSource}" Grid.Row="5" Margin="10" FontSize="16" />
+
+                        <TextBlock Text="Language" Grid.Row="6" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Text="{Binding Language, Mode=OneWayToSource}" Grid.Row="7" Margin="10" FontSize="16" />
+
+                        <TextBlock Text="Price" Grid.Row="8" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
+                        <TextBox Text="{Binding Price, Mode=OneWayToSource}" Grid.Row="9" Margin="10" FontSize="16" />
+
+                        <TextBlock Text="Release date" Grid.Row="10" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <DatePicker Grid.Row="11" Margin="10"  SelectedDate="{Binding ReleaseDate}" Style="{DynamicResource MaterialDesignFloatingHintDatePicker}" FontSize="16"/>
+
+                        <TextBlock Text="Category" Grid.Row="12" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <ComboBox Grid.Row="13" Margin="10" ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" FontSize="16" />
+
+                        <TextBlock Text="Description" Grid.Row="14" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                        <TextBox Grid.Row="15" Text="{Binding Description}" Margin="10" FontSize="16"/>
+
+                        <CheckBox Grid.Row="16" Content="Is book available now" Margin="10" IsChecked="{Binding IsAvailable}" FontSize="16" />
+
+                        <Button Grid.Row="17" Content="Add book" Margin="10" Command="{Binding CreatePrintedEditionCommand}"/>
+                    </Grid>
                 </Grid>
             </TabItem>
 
@@ -104,7 +176,7 @@
                                                 <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="2" Text="{Binding Genre, StringFormat='Genre: {0}'}" Margin="0 0 0 15" />
                                             </Grid>
 
-                                            <Grid Grid.Column="2" Margin="0 80 0 0" HorizontalAlignment="Right">
+                                            <Grid Grid.Column="2" Margin="0 80" HorizontalAlignment="Right">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="auto" />
                                                     <RowDefinition Height="auto" />
@@ -153,125 +225,156 @@
             </TabItem>
 
             <TabItem Header="Order history" Visibility="{Binding IsReader, Converter={StaticResource booleanToVisibilityConverter}}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <ListView ItemsSource="{Binding OrderViewModels}" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Order number">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding OrderId}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                <ContentPresenter Content="{Binding}">
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <ListView Name="List" ItemsSource="{Binding OrderViewModels}" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Order number">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding OrderId}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                <GridViewColumn Header="Order date">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding OrderDate}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                <GridViewColumn Header="Order date">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding OrderDate}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                <GridViewColumn Header="Books ordered">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding PrintedEditionsAmount}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                <GridViewColumn Header="Books ordered">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding PrintedEditionsAmount}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                <GridViewColumn Header="Total price">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TotalPrice, StringFormat=' {0:C}'}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                <GridViewColumn Header="Total price">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding TotalPrice, StringFormat=' {0:C}'}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                <GridViewColumn Header="Status">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Status}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                <GridViewColumn Header="Status">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Status}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                <GridViewColumn>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Command="{Binding ViewOrderCommand}" Content="View details"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                                <GridViewColumn>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Command="{Binding ViewOrderCommand}" Content="View details"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                <GridViewColumn>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button Command="{Binding PayOrderCommand}" Content="Pay order"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </ScrollViewer>
+                                                <GridViewColumn>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Command="{Binding PayOrderCommand}" Content="Pay order"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </ScrollViewer>
+                                <Image Visibility="Collapsed" Name="Image" HorizontalAlignment="Center" Height="250" Margin="50" Source="D:\University\OOPR\Lab2\Publishing house\Resources\noOrdersFound.png" />
+                            </Grid>
+                            
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding HasOrders}" Value="false">
+                                    <Setter TargetName="List" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="Image" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
             </TabItem>
 
             <TabItem Header="Readers" Visibility="{Binding IsAdmin, Converter={StaticResource booleanToVisibilityConverter}}">
-                <Grid>
-                    <ScrollViewer>
-                        <ListView ItemsSource="{Binding ReaderViewModels}" HorizontalAlignment="Center">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="First name">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding FirstName}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
+                <ContentPresenter Content="{Binding}">
+                    <ContentPresenter.ContentTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"> 
+                                    <ListView Name="List" ItemsSource="{Binding ReaderViewModels}" HorizontalAlignment="Center">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="First name">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding FirstName}"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                    <GridViewColumn Header="Last name">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding LastName}" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
+                                                <GridViewColumn Header="Last name">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding LastName}" />
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                    <GridViewColumn Header="Create date">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding CreateDate}" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
+                                                <GridViewColumn Header="Create date">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding CreateDate}" />
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                    <GridViewColumn Header="Is in blacklist">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding IsBlacklisted}" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
+                                                <GridViewColumn Header="Is in blacklist">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding IsBlacklisted}" />
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
 
-                                    <GridViewColumn>
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Button Command="{Binding ViewOrdersCommand}" Content="View reader orders" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </ScrollViewer>
-                </Grid>
+                                                <GridViewColumn>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Command="{Binding ViewOrdersCommand}" Content="View reader orders" />
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </ScrollViewer>
+
+                                <Image Visibility="Collapsed" Name="Image" HorizontalAlignment="Center" Height="250" Margin="50" Source="D:\University\OOPR\Lab2\Publishing house\Resources\noOrdersFound.png" />
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding HasReaders}" Value="false">
+                                    <Setter TargetName="List" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="Image" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ContentPresenter.ContentTemplate>
+                </ContentPresenter>
             </TabItem>
 
             <TabItem Header="Account">
-                <Grid Margin="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>

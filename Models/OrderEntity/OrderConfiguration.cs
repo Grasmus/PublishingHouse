@@ -13,6 +13,10 @@ namespace PublishingHouse.Models.OrderEntity
                 .HasForeignKey(p => p.UserId);
 
             builder
+                .Property(p => p.UserId)
+                .IsRequired(false);
+
+            builder
                 .HasMany(p => p.PrintedEditions)
                 .WithMany(p => p.Orders);
 

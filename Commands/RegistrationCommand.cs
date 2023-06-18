@@ -1,13 +1,11 @@
 ﻿using PublishingHouse.DTOs;
 using PublishingHouse.Interfaces;
-using PublishingHouse.Services;
 using PublishingHouse.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
 using System;
-using PublishingHouse.Helpers;
 using System.ComponentModel;
-using System.Windows.Navigation;
+using PublishingHouse.Validation;
 
 namespace PublishingHouse.Commands
 {
@@ -48,7 +46,7 @@ namespace PublishingHouse.Commands
                 base.CanExecute(parameter);
         }
 
-        public override async Task ExecuteAsync(object parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             UserRegisterDTO userDTO = new UserRegisterDTO()
             {
@@ -60,6 +58,9 @@ namespace PublishingHouse.Commands
 
             try
             {
+                Validator.PasswordValidation(userDTO.Password);
+                Validator.LoginValidation(userDTO.Login);
+
                 await _authenticationService.RegistrationAsync(userDTO);
                 _navigationService.Navigate();
             }

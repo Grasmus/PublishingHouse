@@ -22,7 +22,16 @@ namespace PublishingHouse.Commands
         {
             try
             {
-                IEnumerable<PrintedEdition> printedEditions = _bookService.LoadPrintedEditions();
+                IEnumerable<PrintedEdition> printedEditions;
+
+                if (_mainPageViewModel.IsAdmin)
+                {
+                    printedEditions = _bookService.LoadPrintedEditions();
+                }
+                else
+                {
+                    printedEditions = _bookService.LoadAvailablePrintedEditions();
+                }
 
                 _mainPageViewModel.UpdatePrintedEditions(printedEditions);
             }

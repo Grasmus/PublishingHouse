@@ -1,7 +1,10 @@
-﻿using PublishingHouse.Interfaces;
+﻿using PublishingHouse.DTOs;
+using PublishingHouse.Interfaces;
 using PublishingHouse.Models.PrintedEditionEntity;
 using PublishingHouse.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PublishingHouse.Services
 {
@@ -31,6 +34,38 @@ namespace PublishingHouse.Services
             {
                 printedEditions.Add(printedEditionRepository.GetById(id));
             }
+
+            return printedEditions;
+        }
+
+        public async Task CreatePrintedEditionAsync(CreatePrintedEditionDTO createPrintedEditionDTO)
+        {
+            PrintedEditionRepository printedEditionRepository = _unitOfWork.PrintedEditionRepository;
+
+            PrintedEdition printedEdition = new PrintedEdition()
+            {
+                Author = createPrintedEditionDTO.Author,
+                Title = createPrintedEditionDTO.Title,
+                Genre = createPrintedEditionDTO.Genre,
+                Language = createPrintedEditionDTO.Language,
+                Description = createPrintedEditionDTO.Description,
+                Cover = createPrintedEditionDTO.Cover,
+                Category = createPrintedEditionDTO.Category,
+                IsAvailable = createPrintedEditionDTO.IsAvailable,
+                Price = createPrintedEditionDTO.Price,
+                ReleaseDate = createPrintedEditionDTO.ReleaseDate,
+                Updated = DateTime.Now
+            };
+
+            await printedEditionRepository.AddAsync(printedEdition);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public IEnumerable<PrintedEdition> LoadAvailablePrintedEditions()
+        {
+            PrintedEditionRepository printedEditionRepository = _unitOfWork.PrintedEditionRepository;
+
+            IEnumerable<PrintedEdition> printedEditions = printedEditionRepository.GetAvailable();
 
             return printedEditions;
         }

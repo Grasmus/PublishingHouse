@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PublishingHouse.DataAccessLayer;
 
@@ -11,9 +12,11 @@ using PublishingHouse.DataAccessLayer;
 namespace PublishingHouse.Migrations
 {
     [DbContext(typeof(PublishingHouseContext))]
-    partial class PublishingHouseContextModelSnapshot : ModelSnapshot
+    [Migration("20230617140826_AddSeed")]
+    partial class AddSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

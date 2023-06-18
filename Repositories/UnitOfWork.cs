@@ -9,6 +9,7 @@ namespace PublishingHouse.Repositories
         private UserRepository _userRepository;
         private PrintedEditionRepository _printedEditionRepository;
         private OrderRepository _orderRepository;
+        private CategoryRepository _categoryRepository;
 
         public UnitOfWork(PublishingHouseContext context)
         {
@@ -51,6 +52,19 @@ namespace PublishingHouse.Repositories
                 }
 
                 return _orderRepository;
+            }
+        }
+
+        public CategoryRepository CategoryRepository
+        {
+            get
+            {
+                if(_categoryRepository == null)
+                {
+                    _categoryRepository = new CategoryRepository(_context.Category);
+                }
+
+                return _categoryRepository;
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿using PublishingHouse.Interfaces;
 using PublishingHouse.ViewModels;
-using System.Threading;
+using System.Windows;
 
 namespace PublishingHouse.Commands
 {
@@ -17,7 +17,9 @@ namespace PublishingHouse.Commands
 
         public override void Execute(object? parameter)
         {
-            Thread.CurrentPrincipal = null;
+            Application.Current.Resources.Remove("UserLogin");
+            Application.Current.Resources.Remove("UserRole");
+
             _navigationService.Navigate(_loginViewModel);
         }
     }
