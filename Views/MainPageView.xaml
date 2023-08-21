@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:PublishingHouse.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vmls="clr-namespace:PublishingHouse.ViewModels"
-             mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200"
+             mc:Ignorable="d"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     <UserControl.Resources>
@@ -17,6 +16,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+            <BitmapImage x:Key="bookDefaultImage" UriSource="../Resources/book_cover.jpg" />
+            <BitmapImage x:Key="itemsNotFound" UriSource="../Resources/noItemsFound2.png" />
+            <BitmapImage x:Key="noOrdersFound" UriSource="../Resources/noOrdersFound.png" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -43,20 +45,41 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <Image Grid.Row="0" Height="450" Source="{Binding Cover}"/>
+                                            <Image Grid.Row="0" Height="450">
+                                                <Image.Source>
+                                                    <Binding Path="Cover">
+                                                        <Binding.TargetNullValue>
+                                                            <StaticResource ResourceKey="bookDefaultImage" />
+                                                        </Binding.TargetNullValue>
+                                                    </Binding>
+                                                </Image.Source>
+                                            </Image>
 
-                                            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" Grid.Row="1" Text="{Binding Title}" />
-                                            
-                                            <TextBlock Style="{DynamicResource MaterialDesignBody2TextBlock}" Grid.Row="2" Text="{Binding Author}" />
-                                            
-                                            <Button Margin="0 10" Grid.Row="3" Command="{Binding ViewBookCommand}" Content="View book"/>
+                                            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}"
+                                                       Grid.Row="1"
+                                                       Text="Is not available" 
+                                                       Visibility="{Binding IsNotAvailableVisibility}" />
 
-                                            <Button Grid.Row="4" Visibility="{Binding AddBookButtonVisibility}"
-                                                        Content="{Binding Price}" 
-                                                        ContentStringFormat="Buy this book now for {0:C}"
-                                                        Command="{Binding AddBookToOrderCommand}"/>
+                                            <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                                       Grid.Row="2" 
+                                                       Text="{Binding Title}" />
+
+                                            <TextBlock Style="{DynamicResource MaterialDesignBody2TextBlock}" 
+                                                       Grid.Row="3"
+                                                       Text="{Binding Author}" />
+
+                                            <Button Margin="0 10"
+                                                    Grid.Row="4" 
+                                                    Command="{Binding ViewBookCommand}" 
+                                                    Content="View book"/>
+
+                                            <Button Grid.Row="5" Visibility="{Binding AddBookButtonVisibility}"
+                                                    Content="{Binding Price}" 
+                                                    ContentStringFormat="Buy this book now for {0:C}"
+                                                    Command="{Binding AddBookToOrderCommand}"/>
                                         </Grid>
                                     </materialDesign:Card>
                                 </DataTemplate>
@@ -74,65 +97,84 @@
                     </Grid.ColumnDefinitions>
 
                     <Grid Grid.Column="0" Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Image Grid.Row="0" Source="{Binding Cover}" Height="600" Width="300" Margin="0 20" />
-                        <Button Grid.Row="1" Content="Load image" Command="{Binding LoadImageCommand}"/>
+                        <Image Grid.Row="0" Width="400" Margin="0 10" Grid.ColumnSpan="2">
+                            <Image.Source>
+                                <Binding Path="Cover">
+                                    <Binding.TargetNullValue>
+                                        <StaticResource ResourceKey="bookDefaultImage" />
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                        <Button Grid.Row="1" Content="Load image" Command="{Binding LoadImageCommand}" Grid.ColumnSpan="2"/>
                     </Grid>
 
-                    <Grid Grid.Column="1" Margin="20">
-                        <Grid.RowDefinitions >
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
+                    <ScrollViewer Grid.Column="1" Margin="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Text="Title" Grid.Row="0" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Text="{Binding Title, Mode=OneWayToSource}" Grid.Row="1" Margin="10" FontSize="16" />
+                            <TextBlock Text="Title" Grid.Row="0" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Text="{Binding Title, Mode=OneWayToSource}" Grid.Row="1" Margin="10" FontSize="16" />
 
-                        <TextBlock Text="Author" Grid.Row="2" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Text="{Binding Author, Mode=OneWayToSource}" Grid.Row="3" Margin="10" FontSize="16" />
+                            <TextBlock Text="Author" Grid.Row="2" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Text="{Binding Author, Mode=OneWayToSource}" Grid.Row="3" Margin="10" FontSize="16" />
 
-                        <TextBlock Text="Genre" Grid.Row="4" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Text="{Binding Genre, Mode=OneWayToSource}" Grid.Row="5" Margin="10" FontSize="16" />
+                            <TextBlock Text="Genre" Grid.Row="4" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Text="{Binding Genre, Mode=OneWayToSource}" Grid.Row="5" Margin="10" FontSize="16" />
 
-                        <TextBlock Text="Language" Grid.Row="6" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Text="{Binding Language, Mode=OneWayToSource}" Grid.Row="7" Margin="10" FontSize="16" />
+                            <TextBlock Text="Language" Grid.Row="6" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Text="{Binding Language, Mode=OneWayToSource}" Grid.Row="7" Margin="10" FontSize="16" />
 
-                        <TextBlock Text="Price" Grid.Row="8" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
-                        <TextBox Text="{Binding Price, Mode=OneWayToSource}" Grid.Row="9" Margin="10" FontSize="16" />
+                            <TextBlock Text="Price" Grid.Row="8" Style="{DynamicResource MaterialDesignBody1TextBlock}" />
+                            <TextBox Text="{Binding Price, Mode=OneWayToSource}" Grid.Row="9" Margin="10" FontSize="16" />
 
-                        <TextBlock Text="Release date" Grid.Row="10" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <DatePicker Grid.Row="11" Margin="10"  SelectedDate="{Binding ReleaseDate}" Style="{DynamicResource MaterialDesignFloatingHintDatePicker}" FontSize="16"/>
+                            <TextBlock Text="Release date" Grid.Row="10" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <DatePicker Grid.Row="11" 
+                                    Margin="10"  
+                                    SelectedDate="{Binding ReleaseDate}" 
+                                    Style="{DynamicResource MaterialDesignFloatingHintDatePicker}" 
+                                    FontSize="16"/>
 
-                        <TextBlock Text="Category" Grid.Row="12" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <ComboBox Grid.Row="13" Margin="10" ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" FontSize="16" />
+                            <TextBlock Text="Category" Grid.Row="12" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <ComboBox Grid.Row="13" Margin="10" ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}" FontSize="16" />
 
-                        <TextBlock Text="Description" Grid.Row="14" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
-                        <TextBox Grid.Row="15" Text="{Binding Description}" Margin="10" FontSize="16"/>
+                            <TextBlock Text="Description" Grid.Row="14" Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
+                            <TextBox Grid.Row="15" TextWrapping="Wrap" Text="{Binding Description}" Margin="10" FontSize="16"/>
 
-                        <CheckBox Grid.Row="16" Content="Is book available now" Margin="10" IsChecked="{Binding IsAvailable}" FontSize="16" />
+                            <CheckBox Grid.Row="16" Content="Is book available now" Margin="10" IsChecked="{Binding IsAvailable}" FontSize="16" />
 
-                        <Button Grid.Row="17" Content="Add book" Margin="10" Command="{Binding CreatePrintedEditionCommand}"/>
-                    </Grid>
+                            <Button Grid.Row="17" Content="Add book" Margin="10" Command="{Binding CreatePrintedEditionCommand}"/>
+                        </Grid>
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
 
@@ -142,7 +184,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    
+
                     <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <ItemsControl ItemsSource="{Binding CartPrintedEditions}">
                             <ItemsControl.ItemsPanel>
@@ -171,9 +213,17 @@
                                                     <RowDefinition Height="auto" />
                                                 </Grid.RowDefinitions>
 
-                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline3TextBlock}" Grid.Row="0" Text="{Binding Title}" Margin="0 0 0 15"/>
-                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="1" Text="{Binding Author, StringFormat='Author: {0}'}" Margin="0 0 0 15" />
-                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="2" Text="{Binding Genre, StringFormat='Genre: {0}'}" Margin="0 0 0 15" />
+                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline3TextBlock}" 
+                                                           Grid.Row="0" Text="{Binding Title}" 
+                                                           Margin="0 0 0 15"/>
+                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" 
+                                                           Grid.Row="1" 
+                                                           Text="{Binding Author, StringFormat='Author: {0}'}" 
+                                                           Margin="0 0 0 15" />
+                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" 
+                                                           Grid.Row="2" 
+                                                           Text="{Binding Genre, StringFormat='Genre: {0}'}" 
+                                                           Margin="0 0 0 15" />
                                             </Grid>
 
                                             <Grid Grid.Column="2" Margin="0 80" HorizontalAlignment="Right">
@@ -182,8 +232,14 @@
                                                     <RowDefinition Height="auto" />
                                                 </Grid.RowDefinitions>
 
-                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="0" Text="{Binding Language, StringFormat='Language: {0}'}" Margin="0 0 0 15" />
-                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" Grid.Row="1" Text="{Binding Price, StringFormat='Price: {0:C}'}" VerticalAlignment="Center"/>     
+                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" 
+                                                           Grid.Row="0" 
+                                                           Text="{Binding Language, StringFormat='Language: {0}'}" 
+                                                           Margin="0 0 0 15" />
+                                                <TextBlock Style="{DynamicResource MaterialDesignHeadline5TextBlock}" 
+                                                           Grid.Row="1"
+                                                           Text="{Binding Price, StringFormat='Price: {0:C}'}"
+                                                           VerticalAlignment="Center"/>
                                             </Grid>
 
                                             <Button Grid.Column="3" Margin="20 0" Command="{Binding RemoveBookCommand}" HorizontalAlignment="Right">
@@ -202,8 +258,11 @@
                                                 <Setter.Value>
                                                     <ControlTemplate>
                                                         <Grid>
-                                                            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Margin="50" 
-                                                               Source="D:\University\OOPR\Lab2\Publishing house\Resources\noItemsFound2.png" />
+                                                            <Image HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Height="250" 
+                                                                   Margin="50" 
+                                                                   Source="{StaticResource itemsNotFound}" />
                                                         </Grid>
                                                     </ControlTemplate>
                                                 </Setter.Value>
@@ -216,10 +275,12 @@
                     </ScrollViewer>
 
                     <Grid Grid.Row="1" Margin="15" Width="900">
-                        <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" Text="{Binding TotalSum, StringFormat='Total: {0:C}'}" Visibility="{Binding HasCartItems,
-                                                                                                   Converter={StaticResource booleanToVisibilityConverter}}" />
-                        <Button Width="250" Command="{Binding MakeOrderCommand}" Content="Make an order" Visibility="{Binding HasCartItems,
-                                                                                                   Converter={StaticResource booleanToVisibilityConverter}}" />
+                        <TextBlock Style="{DynamicResource MaterialDesignBody1TextBlock}" 
+                                   Text="{Binding TotalSum, StringFormat='Total: {0:C}'}"
+                                   Visibility="{Binding HasCartItems, Converter={StaticResource booleanToVisibilityConverter}}" />
+                        <Button Width="250" Command="{Binding MakeOrderCommand}" 
+                                Content="Make an order" 
+                                Visibility="{Binding HasCartItems, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                 </Grid>
             </TabItem>
@@ -230,7 +291,10 @@
                         <DataTemplate>
                             <Grid>
                                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                    <ListView Name="List" ItemsSource="{Binding OrderViewModels}" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+                                    <ListView Name="List" 
+                                              ItemsSource="{Binding OrderViewModels}" 
+                                              HorizontalAlignment="Center" 
+                                              HorizontalContentAlignment="Center">
                                         <ListView.View>
                                             <GridView>
                                                 <GridViewColumn Header="Order number">
@@ -292,9 +356,14 @@
                                         </ListView.View>
                                     </ListView>
                                 </ScrollViewer>
-                                <Image Visibility="Collapsed" Name="Image" HorizontalAlignment="Center" Height="250" Margin="50" Source="D:\University\OOPR\Lab2\Publishing house\Resources\noOrdersFound.png" />
+                                <Image Visibility="Collapsed" 
+                                       Name="Image" 
+                                       HorizontalAlignment="Center" 
+                                       Height="250" 
+                                       Margin="50" 
+                                       Source="{StaticResource noOrdersFound}" />
                             </Grid>
-                            
+
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding HasOrders}" Value="false">
                                     <Setter TargetName="List" Property="Visibility" Value="Collapsed" />
@@ -311,43 +380,43 @@
                     <ContentPresenter.ContentTemplate>
                         <DataTemplate>
                             <Grid>
-                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"> 
-                                    <ListView Name="List" ItemsSource="{Binding ReaderViewModels}" HorizontalAlignment="Center">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <ListView Name="List" ItemsSource="{Binding ReaderViewModels}" HorizontalAlignment="Center" FontSize="20">
                                         <ListView.View>
                                             <GridView>
-                                                <GridViewColumn Header="First name">
+                                                <GridViewColumn Header="First name" Width="200">
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding FirstName}"/>
+                                                            <TextBlock Text="{Binding FirstName}" FontSize="16"/>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
 
-                                                <GridViewColumn Header="Last name">
+                                                <GridViewColumn Header="Last name" Width="200">
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding LastName}" />
+                                                            <TextBlock Text="{Binding LastName}" FontSize="16"/>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
 
-                                                <GridViewColumn Header="Create date">
+                                                <GridViewColumn Header="Create date" Width="200">
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding CreateDate}" />
+                                                            <TextBlock Text="{Binding CreateDate}" FontSize="16"/>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
 
-                                                <GridViewColumn Header="Is in blacklist">
+                                                <GridViewColumn Header="Is in blacklist" Width="200">
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding IsBlacklisted}" />
+                                                            <TextBlock Text="{Binding IsBlacklisted}" FontSize="16"/>
                                                         </DataTemplate>
                                                     </GridViewColumn.CellTemplate>
                                                 </GridViewColumn>
 
-                                                <GridViewColumn>
+                                                <GridViewColumn Width="200">
                                                     <GridViewColumn.CellTemplate>
                                                         <DataTemplate>
                                                             <Button Command="{Binding ViewOrdersCommand}" Content="View reader orders" />
@@ -359,7 +428,12 @@
                                     </ListView>
                                 </ScrollViewer>
 
-                                <Image Visibility="Collapsed" Name="Image" HorizontalAlignment="Center" Height="250" Margin="50" Source="D:\University\OOPR\Lab2\Publishing house\Resources\noOrdersFound.png" />
+                                <Image Visibility="Collapsed" 
+                                       Name="Image" 
+                                       HorizontalAlignment="Center" 
+                                       Height="250" 
+                                       Margin="50" 
+                                       Source="{StaticResource noOrdersFound}" />
                             </Grid>
 
                             <DataTemplate.Triggers>
@@ -424,9 +498,25 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Width="250" Content="Save" HorizontalAlignment="Left" Margin="25" Command="{Binding UpdateUserInfoCommand}" />
-                        <Button Grid.Column="1" Width="250" Content="Logout" HorizontalAlignment="Left" Margin="25" Command="{Binding LogoutCommand}" />
-                        <Button Grid.Column="2" Width="250" Content="Delete Account" HorizontalAlignment="Left" Margin="25" Command="{Binding DeleteUserCommand}" Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" />
+                        <Button Grid.Column="0" 
+                                Width="250" 
+                                Content="Save" 
+                                HorizontalAlignment="Left"
+                                Margin="25" 
+                                Command="{Binding UpdateUserInfoCommand}" />
+                        <Button Grid.Column="1" 
+                                Width="250" 
+                                Content="Logout" 
+                                HorizontalAlignment="Left" 
+                                Margin="25" 
+                                Command="{Binding LogoutCommand}" />
+                        <Button Grid.Column="2" 
+                                Width="250" 
+                                Content="Delete Account"
+                                HorizontalAlignment="Left"
+                                Margin="25" 
+                                Command="{Binding DeleteUserCommand}" 
+                                Style="{DynamicResource MaterialDesignRaisedSecondaryButton}" />
                     </Grid>
                 </Grid>
             </TabItem>

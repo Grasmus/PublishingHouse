@@ -13,6 +13,8 @@
   <ItemGroup>
     <None Remove="Resources\Isaac_Asimov_I_Robot.jpg" />
     <None Remove="Resources\noItemsFound.png" />
+    <None Remove="Resources\noItemsFound2.png" />
+    <None Remove="Resources\noOrdersFound.png" />
     <None Remove="Resources\Samuel_Delany_Babel-17.jpg" />
     <None Remove="Resources\Stephen_King_The_Mist.jpg" />
   </ItemGroup>
@@ -39,6 +41,8 @@
     <Resource Include="Resources\book_cover.jpg" />
     <Resource Include="Resources\Isaac_Asimov_I_Robot.jpg" />
     <DesignDataWithDesignTimeCreatableTypes Include="Resources\noItemsFound.png" />
+    <Resource Include="Resources\noItemsFound2.png" />
+    <Resource Include="Resources\noOrdersFound.png" />
     <Resource Include="Resources\Samuel_Delany_Babel-17.jpg" />
     <Resource Include="Resources\Stephen_King_The_Mist.jpg" />
   </ItemGroup>

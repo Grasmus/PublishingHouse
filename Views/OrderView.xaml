@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PublishingHouse.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:components="clr-namespace:PublishingHouse.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     <UserControl.Resources>
@@ -25,11 +25,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" HorizontalAlignment="Left" Width="75" Background="DimGray">
-            <Button Height="50" Command="{Binding NavigateBackCommand}">
-                <materialDesign:PackIcon Kind="ArrowBack" />
-            </Button>
-        </StackPanel>
+        <components:ReturnPanel Grid.Column="0" />
+        
         <Grid  Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />

@@ -21,6 +21,7 @@ namespace PublishingHouse.ViewModels
         public string Login
         {
             get => _login;
+
             set 
             { 
                 _login = value;
@@ -34,6 +35,7 @@ namespace PublishingHouse.ViewModels
         public string Password
         {
             get => _password;
+
             set
             {
                 _password = value;

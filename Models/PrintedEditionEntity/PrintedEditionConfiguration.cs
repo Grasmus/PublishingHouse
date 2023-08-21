@@ -31,8 +31,7 @@ namespace PublishingHouse.Models.PrintedEditionEntity
                 .Property(p => p.Updated);
 
             builder
-                .Property(p => p.IsAvailable)
-                .HasDefaultValue(true);
+                .Property(p => p.IsAvailable);
 
             builder
                 .Property(p => p.Author)

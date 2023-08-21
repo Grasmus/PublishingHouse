@@ -12,6 +12,14 @@ namespace PublishingHouse.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public virtual void Dispose() { } 
+        public virtual void Dispose() { }
+
+        protected bool _canNavigateBack = true;
+
+        public bool CanNavigateBack 
+        {
+            get => _canNavigateBack; 
+            set => _canNavigateBack = value;
+        }
     }
 }

@@ -3,11 +3,11 @@
 namespace PublishingHouse.Views
 {
     /// <summary>
-    /// Interaction logic for RegistrationView.xaml
+    /// Interaction logic for EditPrintedEditionView.xaml
     /// </summary>
-    public partial class RegistrationView : UserControl
+    public partial class EditPrintedEditionView : UserControl
     {
-        public RegistrationView()
+        public EditPrintedEditionView()
         {
             InitializeComponent();
         }

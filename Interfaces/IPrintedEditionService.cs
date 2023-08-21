@@ -10,5 +10,6 @@ namespace PublishingHouse.Interfaces
         IEnumerable<PrintedEdition> LoadPrintedEditions();
         IEnumerable<PrintedEdition> LoadAvailablePrintedEditions();
         Task CreatePrintedEditionAsync(CreatePrintedEditionDTO createPrintedEditionDTO);
+        Task UpdatePrintedEditionAsync(PrintedEdition printedEdition);
     }
 }

@@ -13,7 +13,7 @@ namespace PublishingHouse.DTOs
         public string Language { get; set; }
         public decimal Price { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public bool? IsAvailable { get; set; }
+        public bool IsAvailable { get; set; }
         public Category? Category { get; set; }
     }
 }

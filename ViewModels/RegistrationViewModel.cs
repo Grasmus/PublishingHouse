@@ -12,14 +12,15 @@ namespace PublishingHouse.ViewModels
             INavigationService navigationService)
         {
             RegistrationCommand = new RegistrationCommand(this, authenticationService, navigationService);
-            NavigateBackCommand = new NavigateBackCommand(navigationService);
+            NavigateBackCommand = new NavigateBackCommand(this, navigationService);
         }
 
         private string _firstName;
 
         public string FirstName 
         { 
-            get { return _firstName; }
+            get => _firstName;
+
             set
             {
                 _firstName = value;
@@ -31,7 +32,8 @@ namespace PublishingHouse.ViewModels
 
         public string LastName
         {
-            get { return _lastName; }
+            get => _lastName;
+
             set
             {
                 _lastName = value;
@@ -43,7 +45,8 @@ namespace PublishingHouse.ViewModels
 
         public string Login
         {
-            get { return _login; }
+            get => _login;
+
             set
             {
                 _login = value;
@@ -55,7 +58,8 @@ namespace PublishingHouse.ViewModels
 
         public string Password
         {
-            get { return _password; }
+            get => _password;
+
             set
             {
                 _password = value;

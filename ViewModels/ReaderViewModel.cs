@@ -76,10 +76,7 @@ namespace PublishingHouse.ViewModels
 
         public bool HasOrders
         {
-            get
-            {
-                return _hasOrders;
-            }
+            get => _hasOrders;
 
             set
             {
@@ -104,7 +101,7 @@ namespace PublishingHouse.ViewModels
             _navigationService = navigationService;
 
             ViewOrdersCommand = new ShowViewNavigationCommand(this, navigationService);
-            NavigateBackCommand = new NavigateBackCommand(navigationService);
+            NavigateBackCommand = new NavigateBackCommand(this, navigationService);
             LoadOrdersCommand = new LoadReaderViewOrdersCommand(this, orderService);
             BlockUserCommand = new BlockUserCommand(this, userService);
             UnblockUserCommand = new UnblockUserCommand(this, userService);
@@ -122,7 +119,8 @@ namespace PublishingHouse.ViewModels
             }
         }
 
-        public static ReaderViewModel LoadReaderViewModel(User user,
+        public static ReaderViewModel LoadReaderViewModel(
+            User user,
             IOrderService orderService,
             INavigationService navigationService, 
             IUserService userService)

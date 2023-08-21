@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PublishingHouse.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:components="clr-namespace:PublishingHouse.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     <UserControl.Resources>
@@ -24,13 +24,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" HorizontalAlignment="Left" Width="75" Background="DimGray">
-            <Button Height="50" Command="{Binding NavigateBackCommand}">
-                <materialDesign:PackIcon Kind="ArrowBack" />
-            </Button>
-        </StackPanel>
+        <components:ReturnPanel Grid.Column="0" />
 
-        <Grid Grid.Column="1" Width="900">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -68,45 +64,45 @@
                     <DataTemplate>
                         <Grid>
                             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                                <ListView Name="List" ItemsSource="{Binding Orders}" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
+                                <ListView Name="List" ItemsSource="{Binding Orders}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontSize="20">
                                     <ListView.View>
                                         <GridView>
-                                            <GridViewColumn Header="Order number">
+                                            <GridViewColumn Header="Order number" Width="200">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding OrderId}"/>
+                                                        <TextBlock Text="{Binding OrderId}" FontSize="16"/>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Order date">
+                                            <GridViewColumn Header="Order date" Width="200">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding OrderDate}"/>
+                                                        <TextBlock Text="{Binding OrderDate}" FontSize="16"/>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Books ordered">
+                                            <GridViewColumn Header="Books ordered" Width="200">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding PrintedEditionsAmount}"/>
+                                                        <TextBlock Text="{Binding PrintedEditionsAmount}" FontSize="16"/>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Total price">
+                                            <GridViewColumn Header="Total price" Width="200">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding TotalPrice, StringFormat=' {0:C}'}"/>
+                                                        <TextBlock Text="{Binding TotalPrice, StringFormat=' {0:C}'}" FontSize="16"/>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>
 
-                                            <GridViewColumn Header="Status">
+                                            <GridViewColumn Header="Status" Width="150">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Status}"/>
+                                                        <TextBlock Text="{Binding Status}" FontSize="16"/>
                                                     </DataTemplate>
                                                 </GridViewColumn.CellTemplate>
                                             </GridViewColumn>

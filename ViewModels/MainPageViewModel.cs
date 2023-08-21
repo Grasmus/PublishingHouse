@@ -4,6 +4,7 @@ using PublishingHouse.Models.CategoryEntity;
 using PublishingHouse.Models.OrderEntity;
 using PublishingHouse.Models.PrintedEditionEntity;
 using PublishingHouse.Models.UserEntity;
+using PublishingHouse.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,8 @@ namespace PublishingHouse.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
+        private readonly ICategoryService _categoryService;
+        private readonly IPrintedEditionService _printedEditionService;
 
         public bool IsAdmin { get; set; }
         public bool IsReader { get; set; }
@@ -62,10 +65,7 @@ namespace PublishingHouse.ViewModels
 
         public bool HasCartItems
         {
-            get
-            {
-                return _hasCartItems;
-            }
+            get => _hasCartItems;
 
             set
             {
@@ -99,10 +99,7 @@ namespace PublishingHouse.ViewModels
 
         public bool HasOrders
         {
-            get
-            {
-                return _hasOrders;
-            }
+            get => _hasOrders;
 
             set
             {
@@ -140,7 +137,7 @@ namespace PublishingHouse.ViewModels
         {
             get
             {
-                if(_categories == null)
+                if (_categories == null)
                 {
                     _categories = new ObservableCollection<Category>();
                 }
@@ -158,7 +155,7 @@ namespace PublishingHouse.ViewModels
 
         public int UserId
         {
-            get { return _userId; }
+            get => _userId;
 
             set
             {
@@ -172,7 +169,7 @@ namespace PublishingHouse.ViewModels
 
         public string FirstName
         {
-            get { return _firstName; }
+            get => _firstName;
 
             set
             {
@@ -186,7 +183,7 @@ namespace PublishingHouse.ViewModels
 
         public string LastName
         {
-            get { return _lastName; }
+            get => _lastName;
 
             set
             {
@@ -200,7 +197,7 @@ namespace PublishingHouse.ViewModels
 
         public string Login
         {
-            get { return _login; }
+            get => _login;
 
             set
             {
@@ -214,8 +211,8 @@ namespace PublishingHouse.ViewModels
 
         public bool IsUserBlacklisted
         {
-            get { return _isUserBlacklisted; }
-
+            get => _isUserBlacklisted;
+                
             set
             {
                 _isUserBlacklisted = value;
@@ -228,7 +225,7 @@ namespace PublishingHouse.ViewModels
 
         public decimal TotalSum
         {
-            get { return _totalSum; }
+            get => _totalSum;
 
             set
             {
@@ -242,10 +239,7 @@ namespace PublishingHouse.ViewModels
 
         public string Title
         {
-            get
-            {
-                return _title;
-            }
+            get => _title;
 
             set
             {
@@ -273,7 +267,7 @@ namespace PublishingHouse.ViewModels
 
         public string? Description
         {
-            get { return _description; }
+            get => _description;
 
             set
             {
@@ -384,7 +378,6 @@ namespace PublishingHouse.ViewModels
         ICommand LoadUserInfoCommand { get; }
         ICommand LoadReadersCommand { get; }
         ICommand LoadCategoriesCommand { get; }
-        public ICommand LoadTemplateBookCoverCommand { get; }
         public ICommand LoadBooksCommand { get; }
         public ICommand LoadOrdersCommand {  get; }
         public ICommand UpdateUserInfoCommand { get; }
@@ -400,30 +393,32 @@ namespace PublishingHouse.ViewModels
             IPrintedEditionService bookService,
             IOrderService orderService,
             IUserService userService,
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            IPrintedEditionService printedEditionService)
         {
             _navigationService = navigationService;
             _orderService = orderService;
             _userService = userService;
+            _categoryService = categoryService;
+            _printedEditionService = printedEditionService;
 
             LoadBooksCommand = new LoadBooksCommand(this, bookService);
             LoadUserInfoCommand = new LoadUserInfoCommand(this, userService);
             LoadOrdersCommand = new LoadMainPageOrdersCommand(this, orderService);
             LoadReadersCommand = new LoadReadersCommand(UpdateReades, userService);
-            LoadCategoriesCommand = new LoadCategoriesCommand(this, categoryService);
+            LoadCategoriesCommand = new LoadCategoriesCommand(UpdateCategories, categoryService);
             UpdateUserInfoCommand = new UpdateUserInfoCommand(this, userService);
             LogoutCommand = new LogoutCommand(loginViewModel, navigationService);
             DeleteUserCommand = new DeleteUserCommand(this, userService);
             MakeOrderCommand = new MakeOrderCommand(this, orderService, userService);
-            LoadImageCommand = new LoadImageCommand(this);
+            LoadImageCommand = new LoadImageCommand(UpdateCover);
             CreatePrintedEditionCommand = new CreatePrintedEditionCommand(this, bookService);
-            LoadTemplateBookCoverCommand = new LoadTemplateBookCoverCommand(this);
         }
 
         public static MainPageViewModel LoadViewModel(
             LoginViewModel loginViewModel,
             INavigationService navigationService, 
-            IPrintedEditionService bookService,
+            IPrintedEditionService printedEditionService,
             IOrderService orderService,
             IUserService userService,
             ICategoryService categoryService)
@@ -431,10 +426,11 @@ namespace PublishingHouse.ViewModels
             var viewModel = new MainPageViewModel(
                 loginViewModel, 
                 navigationService, 
-                bookService,
+                printedEditionService,
                 orderService,
                 userService,
-                categoryService);
+                categoryService,
+                printedEditionService);
 
             viewModel.LoadBooksCommand.Execute(null);
             viewModel.LoadUserInfoCommand.Execute(null);
@@ -443,7 +439,6 @@ namespace PublishingHouse.ViewModels
             {
                 viewModel.LoadReadersCommand.Execute(null);
                 viewModel.LoadCategoriesCommand.Execute(null);
-                viewModel.LoadTemplateBookCoverCommand.Execute(null);
             }
             else
             {
@@ -459,7 +454,12 @@ namespace PublishingHouse.ViewModels
 
             foreach (var printedEdition in printedEditions) 
             {
-                PrintedEditions.Add(new PrintedEditionViewModel(this, printedEdition, _navigationService));
+                PrintedEditions.Add(new PrintedEditionViewModel(
+                    this, 
+                    printedEdition, 
+                    _navigationService, 
+                    _categoryService, 
+                    _printedEditionService));
             }
         }
 
@@ -493,6 +493,11 @@ namespace PublishingHouse.ViewModels
             {
                 Categories.Add(category);
             }
+        }
+
+        public void UpdateCover(byte[]? cover)
+        {
+            Cover = cover;
         }
     }
 }

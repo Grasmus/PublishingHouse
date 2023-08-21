@@ -12,7 +12,7 @@ using PublishingHouse.DataAccessLayer;
 namespace PublishingHouse.Migrations
 {
     [DbContext(typeof(PublishingHouseContext))]
-    [Migration("20230617140826_AddSeed")]
+    [Migration("20230821151433_AddSeed")]
     partial class AddSeed
     {
         /// <inheritdoc />
@@ -122,10 +122,8 @@ namespace PublishingHouse.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool?>("IsAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Language")
                         .IsRequired()
@@ -164,9 +162,9 @@ namespace PublishingHouse.Migrations
                             IsAvailable = true,
                             Language = "English",
                             Price = 10m,
-                            ReleaseDate = new DateTime(2023, 6, 17, 17, 8, 26, 113, DateTimeKind.Local).AddTicks(6755),
+                            ReleaseDate = new DateTime(2023, 8, 21, 18, 14, 32, 681, DateTimeKind.Local).AddTicks(7082),
                             Title = "I, Robot",
-                            Updated = new DateTime(2023, 6, 17, 17, 8, 26, 113, DateTimeKind.Local).AddTicks(6791)
+                            Updated = new DateTime(2023, 8, 21, 18, 14, 32, 681, DateTimeKind.Local).AddTicks(7126)
                         },
                         new
                         {
@@ -179,9 +177,9 @@ namespace PublishingHouse.Migrations
                             IsAvailable = true,
                             Language = "English",
                             Price = 10m,
-                            ReleaseDate = new DateTime(2023, 6, 17, 17, 8, 26, 113, DateTimeKind.Local).AddTicks(6798),
+                            ReleaseDate = new DateTime(2023, 8, 21, 18, 14, 32, 681, DateTimeKind.Local).AddTicks(7143),
                             Title = "The Mist",
-                            Updated = new DateTime(2023, 6, 17, 17, 8, 26, 113, DateTimeKind.Local).AddTicks(6800)
+                            Updated = new DateTime(2023, 8, 21, 18, 14, 32, 681, DateTimeKind.Local).AddTicks(7146)
                         },
                         new
                         {
@@ -194,9 +192,9 @@ namespace PublishingHouse.Migrations
                             IsAvailable = true,
                             Language = "English",
                             Price = 9m,
-                            ReleaseDate = new DateTime(2023, 6, 17, 17, 8, 26, 113, DateTimeKind.Local).AddTicks(6803),
+                            ReleaseDate = new DateTime(2023, 8, 21, 18, 14, 32, 681, DateTimeKind.Local).AddTicks(7149),
                             Title = "Babel-17",
-                            Updated = new DateTime(2023, 6, 17, 17, 8, 26, 113, DateTimeKind.Local).AddTicks(6805)
+                            Updated = new DateTime(2023, 8, 21, 18, 14, 32, 681, DateTimeKind.Local).AddTicks(7157)
                         });
                 });
 
@@ -249,12 +247,12 @@ namespace PublishingHouse.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 6, 17, 17, 8, 26, 273, DateTimeKind.Local).AddTicks(8643),
+                            CreatedDate = new DateTime(2023, 8, 21, 18, 14, 32, 851, DateTimeKind.Local).AddTicks(8292),
                             FirstName = "Admin",
                             IsBlacklisted = false,
                             LastName = "Admin",
                             Login = "admin",
-                            PasswordHash = "$2a$11$w4WeHYPfHIoDD.Rjf6/vNeIN0HL3GPbv15fBK5ZhWxV07M9mOKP8m",
+                            PasswordHash = "$2a$11$9NfsebsLUso/BXAUfMYNO.utQ1wBi1ZRb5e31jur.XO1sVazqzeVS",
                             Role = "Administrator"
                         });
                 });

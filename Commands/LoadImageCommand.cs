@@ -1,5 +1,4 @@
-﻿using PublishingHouse.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System;
 using Microsoft.Win32;
 using PublishingHouse.Helpers;
@@ -9,11 +8,12 @@ namespace PublishingHouse.Commands
 {
     public class LoadImageCommand : CommandBase
     {
-        private readonly MainPageViewModel _mainPageViewModel;
+        public delegate void UpdateCoverDelegate(byte[]? cover);
+        private readonly UpdateCoverDelegate _updateCoverDelegate;
 
-        public LoadImageCommand(MainPageViewModel mainPageViewModel)
+        public LoadImageCommand(UpdateCoverDelegate updateCoverDelegate)
         {
-            _mainPageViewModel = mainPageViewModel;
+            _updateCoverDelegate = updateCoverDelegate;
         }
 
         public override void Execute(object? parameter)
@@ -24,7 +24,7 @@ namespace PublishingHouse.Commands
 
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    _mainPageViewModel.Cover = Helper.ConvertImageToByteArray(Image.FromFile(openFileDialog.FileName));
+                    _updateCoverDelegate(Helper.ConvertImageToByteArray(Image.FromFile(openFileDialog.FileName)));
                 }
             }
             catch (Exception ex)

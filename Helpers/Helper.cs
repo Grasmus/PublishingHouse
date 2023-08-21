@@ -19,8 +19,13 @@ namespace PublishingHouse.Helpers
             }
         }
 
-        public static byte[] ConvertImageToByteArray(System.Drawing.Image image)
+        public static byte[]? ConvertImageToByteArray(System.Drawing.Image? image)
         {
+            if (image is null)
+            {
+                return null;
+            }
+
             MemoryStream memmoryStream = new MemoryStream();
 
             image.Save(memmoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);

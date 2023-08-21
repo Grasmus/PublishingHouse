@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PublishingHouse.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:components="clr-namespace:PublishingHouse.Components"
+             mc:Ignorable="d"
              Background="{DynamicResource MaterialDesignPaper}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     
@@ -16,36 +16,42 @@
                 <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Purple" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="bookDefaultImage" UriSource="../Resources/book_cover.jpg" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="75" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" HorizontalAlignment="Left" Width="75" Background="DimGray">
-            <Button Height="50" Command="{Binding NavigateBackCommand}">
-                <materialDesign:PackIcon Kind="ArrowBack" />
-            </Button>
-        </StackPanel>
+        <components:ReturnPanel Grid.Column="0" />
 
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="450" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0" Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Image Margin="25" Grid.Row="0" Source="{Binding Cover}" />
+                <Image Margin="10" Grid.Row="0">
+                    <Image.Source>
+                        <Binding Path="Cover">
+                            <Binding.TargetNullValue>
+                                <StaticResource ResourceKey="bookDefaultImage" />
+                            </Binding.TargetNullValue>
+                        </Binding>
+                    </Image.Source>
+                </Image>
 
-                <Button Margin="25 0" Grid.Row="1" Visibility="{Binding AddBookButtonVisibility}"
+                <Button Margin="10" Grid.Row="1" Visibility="{Binding AddBookButtonVisibility}"
                                     Content="{Binding Price}" 
                                     ContentStringFormat="Buy this book now for {0:C}"
                                     Command="{Binding AddBookToOrderCommand}"/>
@@ -53,24 +59,56 @@
 
             <Grid Margin="0 25" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" /> 
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="{Binding Title}" 
-                                       Style="{DynamicResource MaterialDesignHeadline3TextBlock}" />
-                <TextBlock Margin="0 20" 
-                                       Grid.Row="1" 
-                                       Text="{Binding Author}" 
-                                       Style="{DynamicResource MaterialDesignHeadline5TextBlock}" />
-                <TextBlock TextWrapping="Wrap" 
-                                       Width="450"
-                                       HorizontalAlignment="Left"
-                                       Grid.Row="2" 
-                                       Text="{Binding Description}"
-                                       Style="{DynamicResource MaterialDesignBody2TextBlock}"/>
+                <TextBlock Grid.Row="0" 
+                           Text="{Binding Title}" 
+                           Style="{DynamicResource MaterialDesignHeadline3TextBlock}" />
+                <TextBlock Margin="0 10" 
+                           Grid.Row="1" 
+                           Text="{Binding Author}" 
+                           Style="{DynamicResource MaterialDesignHeadline5TextBlock}" />
+
+                <TextBlock Grid.Row="2"
+                           Margin="0 10"
+                           Style="{DynamicResource MaterialDesignHeadline5TextBlock}"
+                           Text="{Binding Genre}" />
+
+                <TextBlock Grid.Row="3"
+                           Margin="0 10"
+                           Style="{DynamicResource MaterialDesignHeadline5TextBlock}"
+                           Text="{Binding Price, StringFormat='Price: {0:C}'}" />
+
+                <TextBlock Grid.Row="4"
+                           Margin="0 10"
+                           Style="{DynamicResource MaterialDesignHeadline5TextBlock}"
+                           Text="{Binding Language, StringFormat='Language: {0}'}" />
+
+                <TextBlock Grid.Row="5"
+                           Margin="0 10"
+                           Style="{DynamicResource MaterialDesignHeadline5TextBlock}"
+                           Text="{Binding ReleaseDate, StringFormat='Release date: {0:D}'}" />
+
+                <TextBlock Grid.Row="6" 
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Left"
+                           Text="{Binding Description}"
+                           Style="{DynamicResource MaterialDesignBody1TextBlock}"/>
             </Grid>
         </Grid>
+
+        <Button Margin="25" Grid.Column="2" 
+                Visibility="{Binding EditButtonVisibility}" 
+                VerticalAlignment="Top"
+                Command="{Binding EditModeCommand}">
+            <materialDesign:PackIcon Kind="Edit" />
+        </Button>
     </Grid>
 </UserControl>

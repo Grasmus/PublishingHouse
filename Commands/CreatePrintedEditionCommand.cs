@@ -5,7 +5,6 @@ using PublishingHouse.DTOs;
 using PublishingHouse.Interfaces;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using Microsoft.IdentityModel.Tokens;
 
 namespace PublishingHouse.Commands
 {
@@ -54,9 +53,7 @@ namespace PublishingHouse.Commands
         {
             try
             {
-                decimal price;
-
-                if(!Decimal.TryParse(_mainPageViewModel.Price, out price))
+                if (!Decimal.TryParse(_mainPageViewModel.Price, out decimal price))
                 {
                     throw new Exception("Invalid price was written");
                 }

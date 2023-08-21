@@ -17,7 +17,7 @@ namespace PublishingHouse.Models.PrintedEditionEntity
         public decimal Price { get; set; }
         public DateTime ReleaseDate { get; set; }
         public DateTime Updated { get; set; }
-        public bool? IsAvailable { get; set; }
+        public bool IsAvailable { get; set; }
         public int CategoryId { get; set; }
         public virtual Category? Category { get; set; }
 

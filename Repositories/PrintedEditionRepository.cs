@@ -81,5 +81,10 @@ namespace PublishingHouse.Repositories
         {
             _dbSet.Remove(entity);
         }
+
+        public void Update(PrintedEdition entity)
+        {
+            _dbSet.Update(entity);
+        }
     }
 }

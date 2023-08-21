@@ -45,7 +45,7 @@ namespace PublishingHouse.ViewModels
         {
             _order = order;
 
-            NavigateBackCommand = new NavigateBackCommand(navigationService);
+            NavigateBackCommand = new NavigateBackCommand(this, navigationService);
             ViewOrderCommand = new ShowViewNavigationCommand(this, navigationService);
             PayOrderCommand = new PayOrderCommand(this, orderService);
         }
@@ -54,7 +54,7 @@ namespace PublishingHouse.ViewModels
         {
             _order = order;
 
-            NavigateBackCommand = new NavigateBackCommand(navigationService);
+            NavigateBackCommand = new NavigateBackCommand(this, navigationService);
             ViewOrderCommand = new ShowViewNavigationCommand(this, navigationService);
         }
     }

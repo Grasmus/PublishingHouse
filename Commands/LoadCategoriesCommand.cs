@@ -1,5 +1,4 @@
 ﻿using PublishingHouse.Interfaces;
-using PublishingHouse.ViewModels;
 using System.Windows;
 using System;
 using PublishingHouse.Models.CategoryEntity;
@@ -9,12 +8,13 @@ namespace PublishingHouse.Commands
 {
     public class LoadCategoriesCommand : CommandBase
     {
-        private readonly MainPageViewModel _mainPageViewModel;
         private readonly ICategoryService _categoryService;
+        public delegate void UpdateCategoriesDelegate(IEnumerable<Category> categories);
+        private readonly UpdateCategoriesDelegate _updateCategoriesDelegate;
 
-        public LoadCategoriesCommand(MainPageViewModel mainPageViewModel, ICategoryService categoryService)
+        public LoadCategoriesCommand(UpdateCategoriesDelegate updateCategoriesDelegate, ICategoryService categoryService)
         {
-            _mainPageViewModel = mainPageViewModel;
+            _updateCategoriesDelegate = updateCategoriesDelegate;
             _categoryService = categoryService;
         }
 
@@ -26,7 +26,7 @@ namespace PublishingHouse.Commands
 
                 if(categories != null)
                 {
-                    _mainPageViewModel.UpdateCategories(categories);
+                    _updateCategoriesDelegate(categories);
                 }
             }
             catch (Exception ex)

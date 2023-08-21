@@ -69,5 +69,14 @@ namespace PublishingHouse.Services
 
             return printedEditions;
         }
+
+        public async Task UpdatePrintedEditionAsync(PrintedEdition printedEdition)
+        {
+            PrintedEditionRepository printedEditionRepository = _unitOfWork.PrintedEditionRepository;
+
+            printedEditionRepository.Update(printedEdition);
+
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }
